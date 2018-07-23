@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多图片上传案例</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<style>
+    #img{
+        height: 100px;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .preview{
+        margin: 5px;
+        border-radius: 5px;
+        border-color: 1px solid #aaa;
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<body>
+    <h2>多图片上传</h2>
+    <form action="http://localhost/imgUpload/dataResource/upload.php" method="post" enctype="multipart/form-data">
+        <label for="file">上传文件:</label>
+        <div id="fileList">
+            <input type="file" name="myfile[]" id="files" multiple  onchange="upload(this)"/> 
+        </div>
+        <div id="img">
+        </div>
+        <br />
+        <input type="submit" id="submit" value="Submit" />
+    </form>
+</body>
+<script>
+    var imgArea = $("#img");
+    function upload(obj){
+        var docObj = obj;
+        var fileList = docObj.files;
+        var img_tags = new Image();
+        var imgFile=fileList.item(0);
+        var _url=window.URL.createObjectURL(imgFile);  //获取地址
+        img_tags.src = _url;
+        $(img_tags).css('display','block');
+        $(obj).css('display','none');
+        $("#fileList").append('<input type="file" name="myfile[]" id="files" multiple  onchange="upload(this)"/>');
+        $(img_tags).addClass('preview')
+        $(imgArea).prepend(img_tags)
+    }
+</script>
+</html>
